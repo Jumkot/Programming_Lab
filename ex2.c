@@ -2,13 +2,13 @@
 
 typedef struct
 {
-    char str[4];
-    long num;
+    char str[5];
+    int num;
 } NumberRepr;
 
 void format(NumberRepr* number)
 {
-    sprintf(number->str, "%3ld", number->num);
+    sprintf(number->str, "%3d", number->num);
 }
 
 int main()
@@ -18,6 +18,6 @@ int main()
     format(&number);
 
     printf("str: %s\n", number.str);
-    printf("num: %ld\n", number.num);
+    printf("num: %d\n", number.num);
     return 0;
 }
