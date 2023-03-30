@@ -7,5 +7,3 @@ clean:
 	rm app
 run:
 	./app
-valgrind:
-	valgrind ./app

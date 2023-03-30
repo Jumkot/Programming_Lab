@@ -90,6 +90,15 @@ int main()
     int_vector_shrink_to_fit(start);
     printf("Новая ёмкость: %ld, размер: %ld\n\n", int_vector_get_capacity(start), int_vector_get_size(start));
 
-    printf("Вызов %sint_vector_free%s для освобождения памяти, выделенную для вектора %sstart%s\n", BLUE, CLOSE, BLUE, CLOSE);
+    printf("ГРАНИЧНЫЙ СЛУЧАЙ:\n1) уменьшение размера массива до нуля\n");
+    int_vector_resize(start, 0);
+    printf("    size = %ld\n    start->data[0] = %d\n", int_vector_get_size(start), int_vector_get_item(start, 0));
+    printf("\n");
+    printf("2) добавление элемента в конец массива\n");
+    int_vector_push_back(start, 451);
+    printf("    size = %ld\n    start->data[0] = %d\n", int_vector_get_size(start), int_vector_get_item(start, 0));
+    printf("\n");
+
+    printf("Вызов %sint_vector_free%s для освобождения памяти, выделенной для вектора %sstart%s\n", BLUE, CLOSE, BLUE, CLOSE);
     int_vector_free(start);
 }

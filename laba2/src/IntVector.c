@@ -87,8 +87,6 @@ size_t int_vector_get_capacity(const IntVector* v)
 
 int int_vector_push_back(IntVector* v, int item)
 {
-    // int* expance;
-
     if (v->size == v->capacity) {
         int* expance = realloc(v->data, v->capacity * sizeof(int) * 2);
         if (!expance) {
@@ -117,7 +115,6 @@ int int_vector_shrink_to_fit(IntVector* v)
         return -1;
     }
 
-    // int* expance;
     if (v->capacity > v->size) {
         int* expance = realloc(v->data, v->size * sizeof(int));
         if (!expance) {
@@ -158,7 +155,6 @@ int int_vector_reserve(IntVector* v, size_t new_capacity)
         return -1;
     }
 
-    // int* expance;
     int* expance = realloc(v->data, new_capacity * sizeof(int));
 
     if (!expance) {
