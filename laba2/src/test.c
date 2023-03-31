@@ -98,6 +98,14 @@ int main()
     int_vector_push_back(start, 451);
     printf("    size = %ld\n    start->data[0] = %d\n", int_vector_get_size(start), int_vector_get_item(start, 0));
     printf("\n");
+    
+    printf("ПРОВЕРКА: изменения массива при условии new_size > v->capacity\n");
+    printf("Вызов %sint_vector_resize%s: изменяет размер массива %sstart->size%s\n", BLUE, CLOSE, BLUE, CLOSE);
+    int_vector_resize(start, 20);
+    for (int i = 0; i < int_vector_get_capacity(start); i++) {
+        printf("start->data[%d] = %d\n", i, int_vector_get_item(start, i));
+    }
+    printf("\n");
 
     printf("Вызов %sint_vector_free%s для освобождения памяти, выделенной для вектора %sstart%s\n", BLUE, CLOSE, BLUE, CLOSE);
     int_vector_free(start);
