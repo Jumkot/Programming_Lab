@@ -71,6 +71,12 @@ int main()
 {
     FILE* uncompressed = fopen("uncompressed.dat", "wb");
     FILE* compressed = fopen("compressed.dat", "wb");
+    uint32_t number;
+    
+    for (int i = 0; i < 1000000; i++) {
+    	number = generate_number();
+    	fwrite(&number, 4, 1, uncompressed);
+    }
 
     return 0;
 }
