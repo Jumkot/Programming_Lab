@@ -11,6 +11,8 @@
 #include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 size_t encode_varint(uint32_t value, uint8_t* buf)
 {
@@ -77,10 +79,32 @@ int main()
     
     for (int i = 0; i < 1000000; i++) {
     	number = generate_number();
-    	fwrite(&number, 4, 1, uncompressed);
+    	fwrite(&number, sizeof(number), 1, uncompressed);
     	
-    	fwrite(var_arr, );
+    	fwrite(var_arr, sizeof(uint32_t), 1, compressed);
     }
+
+    fclose(uncompressed);
+    fclose(compressed);
+
+    uncompressed = fopen("uncompressed.dat", "rb");
+    compressed = fopen("compressed.dat", "rb");
+
+    fseek(uncompressed, 0, SEEK_END);
+    long uncomp_size = ftell(uncompressed);
+    fseek(compressed, 0, SEEK_END);
+    long comp_size = ftell(compressed);
+
+    printf("%ld\n", uncomp_size);
+    printf("%ld\n", comp_size);
+
+    printf("Коэффициент сжатия равен %ld\n", (uncomp_size / comp_size));
+
+    fseek(uncompressed, 0, SEEK_SET);
+    fseek(compressed, 0, SEEK_SET);
+
+    fclose(uncompressed);
+    fclose(compressed);
 
     return 0;
 }
