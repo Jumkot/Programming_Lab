@@ -74,14 +74,14 @@ int main()
     FILE* uncompressed = fopen("uncompressed.dat", "wb");
     FILE* compressed = fopen("compressed.dat", "wb");
     uint32_t number;
-    uint32_t varint_number;
-    uint32_t* var_arr = malloc(sizeof(uint32_t));
+    uint32_t varint_size;
+    uint8_t* var_arr = malloc(sizeof(uint32_t));
     
     for (int i = 0; i < 1000000; i++) {
     	number = generate_number();
     	fwrite(&number, sizeof(number), 1, uncompressed);
-    	
-    	fwrite(var_arr, sizeof(uint32_t), 1, compressed);
+    	varint_size = encode_varint(number, var_arr);
+    	fwrite(var_arr, varint_size, 1, compressed);
     }
 
     fclose(uncompressed);
@@ -103,6 +103,21 @@ int main()
     fseek(uncompressed, 0, SEEK_SET);
     fseek(compressed, 0, SEEK_SET);
 
+    uint32_t decode;
+    var_arr = realloc(var_arr, comp_size);
+    const uint8_t* buf = var_arr;
+    fread(var_arr, sizeof(uint8_t), comp_size, compressed);
+
+    for (int i = 0; i < 1000000; i++) {
+        fread(&number, sizeof(uint32_t), 1, uncompressed);
+        decode = decode_varint(&buf);
+        if (number != decode) {
+            printf("Не удалось произвести кодирование или декодирование (%d)\n", i);
+            return 1;
+        }
+    }
+
+    free(var_arr);
     fclose(uncompressed);
     fclose(compressed);
 
