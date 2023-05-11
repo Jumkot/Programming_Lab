@@ -129,26 +129,6 @@ int int_vector_shrink_to_fit(IntVector* v)
     return -1;
 }
 
-int int_vector_resize(IntVector* v, size_t new_size)
-{
-    if (new_size == v->size || new_size > v->capacity) {
-        return -1;
-    }
-    
-    if (new_size > v->size) {
-        for (int i = v->size; i < new_size; i++) {
-            v->data[i] = 0;
-        }
-        v->size = new_size;
-    }
-
-    if (new_size < v->size) {
-        v->size = new_size;
-        int_vector_shrink_to_fit(v);
-    }
-    return 0;
-}
-
 int int_vector_reserve(IntVector* v, size_t new_capacity)
 {
     if (new_capacity <= v->capacity) {
@@ -165,3 +145,28 @@ int int_vector_reserve(IntVector* v, size_t new_capacity)
     
     return 0;
 }
+
+int int_vector_resize(IntVector* v, size_t new_size)
+{
+    if (new_size > v->capacity) {
+	int_vector_reserve(v, v->capacity * 2);
+    }
+    
+    if (new_size == v->size) {
+        return -1;
+    }
+    
+    if (new_size > v->size) {
+        for (int i = v->size; i < new_size; i++) {
+            v->data[i] = 0;
+        }
+        v->size = new_size;
+    }
+
+    if (new_size < v->size) {
+        v->size = new_size;
+        int_vector_shrink_to_fit(v);
+    }
+    return 0;
+}
+
