@@ -22,7 +22,6 @@ $(APP_PATH): $(APP_OBJECTS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	gcc -c $(CFLAGS) $(DEPSFLAGS) $< -c -o $@
 
-.PHONY: clean
 clean:
 	rm $(APP_PATH) $(OBJ_DIR)/*.[aod]
 
